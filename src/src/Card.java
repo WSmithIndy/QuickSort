@@ -1,229 +1,217 @@
 package org.wtsmith.cards;
+
 import java.util.Random;
 import java.util.Scanner;
+
+import static org.wtsmith.cards.Card.Suit.*;
 
 /**
  *
  */
-public class Card implements Comparable<Card>
-{   
-    // STANDARD IMPLMENTATION
-    //enum Suit {Hearts, Spades, Diamonds, Clubs, Joker}
-    // ADVANCED ENUM IMPLMENTATION
+public class Card implements Comparable<Card> {
 
-    public static final char suitChars[] = {'\u2660','\u2661','\u2662','\u2663',
-            //'\u1f0a0' 
-            'J'
-        };
+   public static final String ANSI_RED = "\u001B[31m";
+   public static final String ANSI_RESET = "\u001B[0m";
+   // STANDARD IMPLEMENTATION
+   //enum Suit {Hearts, Spades, Diamonds, Clubs, Joker}
+   // ADVANCED ENUM IMPLMENTATION
 
-    public enum Suit {
-        Spades(0),Hearts(1), Diamonds(2), Clubs(3), Joker(4);
-        private int value;
-        private char suitChar;
-        Suit (int inVal){ 
-            value = inVal; 
-            suitChar = suitChars[value];
-        }  
+   public static final char suitChars[] = {'\u2660', '\u2661', '\u2662', '\u2663',
+         //'\u1f0a0'
+         'J'
+   };
 
-        int toInt() {return value;};
+   public enum Suit {
+      Spades(0), Hearts(1), Diamonds(2), Clubs(3), Joker(4);
+      private int value;
+      private char suitChar;
 
-        char toChar() {return suitChar;}
+      Suit(int inVal) {
+         value = inVal;
+         suitChar = suitChars[value];
+      }
 
-        String suitString(){ 
-            return  Character.toString(suitChar); 
-        }
-    }
-    public static Suit numToSuit (int suitIndex)
-    { //ARRAY IMPLEMENTATION
-        //return Card.suitMap[suitIndex];
+      int toInt() {
+         return value;
+      }
 
-        //Advanced Enum Implementation
-        return Suit.values()[suitIndex];  
-    }
+      ;
+
+      char toChar() {
+         return suitChar;
+      }
+
+      String suitString() {
+         return Character.toString(suitChar);
+      }
+   }
+
+   public static Suit numToSuit(int suitIndex) { //ARRAY IMPLEMENTATION
+      //return Card.suitMap[suitIndex];
+
+      //Advanced Enum Implementation
+      return values()[suitIndex];
+   }
 
 
-    //enum Suit{ Hearts, Spades, Diamonds, Clubs, Joker};   
+   //enum Suit{ Hearts, Spades, Diamonds, Clubs, Joker};
 
     /* public static Suit numToSuit (int suitIndex)
     { return Card.suitMap[suitIndex];}*/
 
-    public static int JOKER = 0;
-    public static int ACE = 1;
-    public static int JACK = 11;
-    public static int QUEEN = 12;
-    public static int KING = 13;
+   public static int JOKER = 0;
+   public static int ACE = 1;
+   public static int JACK = 11;
+   public static int QUEEN = 12;
+   public static int KING = 13;
 
-    public static int SHORT=1;
-    public static int VERBOSE=2;
+   public static int SHORT = 1;
+   public static int VERBOSE = 2;
 
-    public static Suit[] suitMap = { Suit.Joker, Suit.Spades,Suit.Hearts, Suit.Diamonds, 
-            Suit.Clubs};
-    private static String[] rankMap = {"Joker","Ace","Two","Three","Four",
-            "Five","Six","Seven","Eight","Nine",
-            "Ten","Jack","Queen","King"};  
-    private static String[] shortRankMap = {"?","A","2","3","4","5","6","7",
-            "8","9","10","J","Q","K"};
-    private static Random rand = new Random();
+   public static Suit[] suitMap = {Joker, Spades, Hearts, Diamonds,
+         Clubs
+   };
+   private static String[] rankMap = {"Joker", "Ace", "Two", "Three", "Four",
+         "Five", "Six", "Seven", "Eight", "Nine",
+         "Ten", "Jack", "Queen", "King"
+   };
+   private static String[] shortRankMap = {"?", "A", "2", "3", "4", "5", "6", "7",
+         "8", "9", "10", "J", "Q", "K"
+   };
+   private static Random rand = new Random();
 
-    private Suit    suitValue;
-    private int     rank;
+   private Suit suitValue;
+   private int rank;
 
-    // default constructor
-    // randomly create a card
-    public Card()
-    {
-        //suitValue = suitMap [ rand.nextInt(4) ];
-        suitValue = numToSuit (rand.nextInt(4));
-        rank = rand.nextInt( 13 ) + 1;
-    }
+   // default constructor
+   // randomly create a card
+   public Card() {
+      //suitValue = suitMap [ rand.nextInt(4) ];
+      suitValue = numToSuit(rand.nextInt(4));
+      rank = rand.nextInt(13) + 1;
+   }
 
-    public Card( Card copyCard)
-    {
-        this.suitValue = copyCard.suitValue;
-        this.rank = copyCard.rank;
-    }
+   public Card(Card copyCard) {
+      this.suitValue = copyCard.suitValue;
+      this.rank = copyCard.rank;
+   }
 
-    public Card(Suit newSuit, int newRank)
-    {
-        suitValue = newSuit;
-        rank = newRank;
-    }
+   public Card(Suit newSuit, int newRank) {
+      suitValue = newSuit;
+      rank = newRank;
+   }
 
-    public int hashCode()
-    {
-        return this.suitValue.toInt()*100 + rank;
-    }
+   public int hashCode() {
+      return this.suitValue.toInt() * 100 + rank;
+   }
 
-    public int compareTo(Card other)
-    {
-        if (this.hashCode() == other.hashCode())
-            return 0;
-        if (this.hashCode() < other.hashCode())
-            return -1;
-        else 
-            return 1;
-    }
+   public int compareTo(Card other) {
+      if (this.hashCode() == other.hashCode())
+         return 0;
+      if (this.hashCode() < other.hashCode())
+         return -1;
+      else
+         return 1;
+   }
 
-    // returns a string representation of the suit
-    public String getSuitStr()
-    { return suitToString( this.suitValue, SHORT ); }
+   // returns a string representation of the suit
+   public String getSuitStr() {
+      return suitToString(this.suitValue, SHORT);
+   }
 
-    public String getSuitStr( int format )
-    {
-        return suitToString(suitValue, format);
-    }
+   public String getSuitStr(int format) {
+      return suitToString(suitValue, format);
+   }
 
-    public String getRankStr()
-    {
-        return getRankStr(SHORT);
-    }
+   public String getRankStr() {
+      return getRankStr(SHORT);
+   }
 
-    public String getRankStr(int format)
-    {
-        if (format == SHORT)
-        {
-            return shortRankMap[this.rank];
-        }
-        else if (format == VERBOSE)
-            return rankMap[this.rank];
+   public String getRankStr(int format) {
+      if (format == SHORT) {
+         return shortRankMap[this.rank];
+      } else if (format == VERBOSE)
+         return rankMap[this.rank];
 
-        return null;
-    }
+      return null;
+   }
 
-    public boolean isGreater(Card compareCard, Suit trumpSuit)
-    {
-        if( compareCard.suitValue == this.suitValue )
-        {
-            if (compareCard.rank < this.rank)
-                return true;
-        }
-        else if (this.suitValue == trumpSuit || this.suitValue == Suit.Joker )
+   public boolean isGreater(Card compareCard, Suit trumpSuit) {
+      if (compareCard.suitValue == this.suitValue) {
+         if (compareCard.rank < this.rank)
             return true;
+      } else if (this.suitValue == trumpSuit || this.suitValue == Joker)
+         return true;
 
-        return false;      
-    }
+      return false;
+   }
 
-    public static String suitToString(Suit inSuit)
-    {
-        return suitToString(inSuit, SHORT);
-    }
+   public static String suitToString(Suit inSuit) {
+      return suitToString(inSuit, SHORT);
+   }
 
-    public int getRank()
-    {
-        return rank;
-    }
+   public int getRank() {
+      return rank;
+   }
 
-    public static String suitToString(Suit inSuit, int format)
-    {
-        if (format == VERBOSE)
-        {
-            if ( inSuit == Suit.Hearts)
-                return "Hearts";
-            else if (inSuit == Suit.Spades)
-                return "Spades";
-            else if (inSuit == Suit.Diamonds)
-                return "Diamonds";
-            else if (inSuit == Suit.Clubs)
-                return "Clubs";
-        }
-        else
-        {
-            return inSuit.suitString();
-            /*
-            if ( inSuit == Suit.Hearts)
-            return "H";
-            else if (inSuit == Suit.Spades)
-            return "S";
-            else if (inSuit == Suit.Diamonds)
-            return "D";
-            else if (inSuit == Suit.Clubs)
-            return "C";   
-             */
-        }
+   public static String suitToString(Suit inSuit, int format) {
+      StringBuilder outStr = new StringBuilder();
 
-        return null;
-    }
+      if (format == VERBOSE) {
+         if (inSuit == Hearts)
+            outStr.append("Hearts");
+         else if (inSuit == Spades)
+            outStr.append("Spades");
+         else if (inSuit == Diamonds)
+            outStr.append("Diamonds");
+         else if (inSuit == Clubs)
+            outStr.append("Clubs");
+      } else {
+         outStr.append(inSuit.suitString());
+      }
+      return new String(outStr);
+   }
 
-    public String toString(){ return toString(SHORT);}
+   public String toString() {
+      return toString(SHORT);
+   }
 
-    public String toString(int format)
-    { 
-        // set the string color
-        //String buildStr = "";
+   public String toString(int format) {
+      // set the string color
 
-        /*
-        if(this.suitValue == Suit.Hearts || this.suitValue== Suit.Diamonds)
-            buildStr += ANSI_RED;
-        else
-            buildStr += ANSI_BLACK;
-            */
+      StringBuilder outStr = new StringBuilder();
+      switch (this.suitValue) {
+         case Hearts:
+         case Diamonds:
+            outStr.append(ANSI_RED);
+            break;
+      }
 
-        if (format == VERBOSE){
+      if (format == VERBOSE) {
 
-            return new String (getRankStr(VERBOSE) + " of " + getSuitStr(VERBOSE)); 
-        }
-        else if (format == SHORT)
-        {
+         outStr.append(getRankStr(VERBOSE) + " of "
+                             + getSuitStr(VERBOSE));
+      } else if (format == SHORT) {
+         outStr.append(getRankStr(SHORT)
+                             + getSuitStr(SHORT));
+      }
+      outStr.append(ANSI_RESET);
+      return new String(outStr);
+   }
 
-            return new String (getRankStr(SHORT) + getSuitStr(SHORT));
-        }
-        return null;
-    }    
+   public static Suit strToSuit(String strSuit) {
+      if (strSuit.equalsIgnoreCase("Hearts"))
+         return Hearts;
+      else if (strSuit.equalsIgnoreCase("Spades"))
+         return Spades;
+      else if (strSuit.equalsIgnoreCase("Diamonds"))
+         return Diamonds;
+      else if (strSuit.equalsIgnoreCase("Clubs"))
+         return Clubs;
 
-    public static Suit strToSuit(String strSuit)
-    {
-        if (strSuit.equalsIgnoreCase("Hearts"))
-            return Suit.Hearts;
-        else if (strSuit.equalsIgnoreCase("Spades"))
-            return Suit.Spades;
-        else if (strSuit.equalsIgnoreCase("Diamonds"))
-            return Suit.Diamonds;
-        else if (strSuit.equalsIgnoreCase("Clubs"))
-            return Suit.Clubs;
-
-        System.out.println("No Suit detected");
-        return Suit.Joker;
-    }
+      System.out.println("No Suit detected");
+      return Joker;
+   }
     /*
     public static void main(String args[])
     {
