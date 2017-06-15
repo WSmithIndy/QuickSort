@@ -30,6 +30,7 @@ public class ShoeTester
             
         System.out.println("First ... let's test sorting just a few cards");
 
+
         Shoe tempShoe;
         // Test with 3 cards
         for(int i=1; i<8; i++)
