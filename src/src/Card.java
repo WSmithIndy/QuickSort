@@ -23,8 +23,8 @@ public class Card implements Comparable<Card> {
 
    public enum Suit {
       Spades(0), Hearts(1), Diamonds(2), Clubs(3), Joker(4);
-      private int value;
-      private char suitChar;
+      private final int  value;
+      private       char suitChar;
 
       Suit(int inVal) {
          value = inVal;
@@ -35,8 +35,6 @@ public class Card implements Comparable<Card> {
          return value;
       }
 
-      ;
-
       char toChar() {
          return suitChar;
       }
@@ -44,13 +42,25 @@ public class Card implements Comparable<Card> {
       String suitString() {
          return Character.toString(suitChar);
       }
-   }
 
-   public static Suit numToSuit(int suitIndex) { //ARRAY IMPLEMENTATION
-      //return Card.suitMap[suitIndex];
+      // TODO ... try to make this work with a switch statment.
+      public static Suit numToSuit(int suitInt) {
+         Object[] enumVals = Suit.values();
 
-      //Advanced Enum Implementation
-      return values()[suitIndex];
+         if( suitInt>=enumVals.length )
+            return Joker;
+         else
+            return (Suit) enumVals[suitInt];
+
+      }
+
+      /*
+      public static Suit numToSuit(int suitIndex) { //ARRAY IMPLEMENTATION
+         //return Card.suitMap[suitIndex];
+
+         //Advanced Enum Implementation
+         return values()[suitIndex];
+      } */
    }
 
 
@@ -68,9 +78,10 @@ public class Card implements Comparable<Card> {
    public static int SHORT = 1;
    public static int VERBOSE = 2;
 
+   /*
    public static Suit[] suitMap = {Joker, Spades, Hearts, Diamonds,
          Clubs
-   };
+   };*/
    private static String[] rankMap = {"Joker", "Ace", "Two", "Three", "Four",
          "Five", "Six", "Seven", "Eight", "Nine",
          "Ten", "Jack", "Queen", "King"
@@ -87,7 +98,7 @@ public class Card implements Comparable<Card> {
    // randomly create a card
    public Card() {
       //suitValue = suitMap [ rand.nextInt(4) ];
-      suitValue = numToSuit(rand.nextInt(4));
+      suitValue = Suit.numToSuit(rand.nextInt(4));
       rank = rand.nextInt(13) + 1;
    }
 
@@ -105,6 +116,8 @@ public class Card implements Comparable<Card> {
       return this.suitValue.toInt() * 100 + rank;
    }
 
+   // TODO: Fix this replace with a Comparator that can be customized !!!! Improper use of a
+   // hashCode
    public int compareTo(Card other) {
       if (this.hashCode() == other.hashCode())
          return 0;

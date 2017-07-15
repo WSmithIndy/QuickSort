@@ -36,7 +36,7 @@ public class ShoeTester
         for(int i=1; i<8; i++)
         {
             //tempShoe = new Shoe(Card.Suit.Spades, i);
-            tempShoe = new Shoe(Card.suitMap[i%4+1],i);
+            tempShoe = new Shoe(Card.Suit.numToSuit(i%4+1),i);
             tempShoe.debugOn = debugModeOn;
             
             System.out.println("_______ TEST "

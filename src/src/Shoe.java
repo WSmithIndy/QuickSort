@@ -18,9 +18,9 @@ public class Shoe
     public Card[] cardAry; // an array to store the cards
     protected Random  rand = new Random();
 
-    protected CardStack myCardStack = new CardStack();
-    protected MinCardHeap myCardHeap = new MinCardHeap();
-    protected int topCard=0;  // a pointer to the card on to of the "top" of the stack
+    protected org.wtsmith.cards.CardStack   myCardStack = new org.wtsmith.cards.CardStack();
+    protected org.wtsmith.cards.MinCardHeap myCardHeap  = new org.wtsmith.cards.MinCardHeap();
+    protected int                           topCard     =0;  // a pointer to the card on to of the "top" of the stack
 
     protected int nqSortComparisons = 0;
 
@@ -42,7 +42,8 @@ public class Shoe
         {
             for (int suit=0; suit<4; suit++) {
                 for( int rank = 1; rank < 14; rank++) {
-                    cardAry[(deckIdx*52)+(suit*13+rank-1)] = new Card (Card.numToSuit(suit), rank);
+                    cardAry[(deckIdx*52)+(suit*13+rank-1)] = new Card (Card.Suit.numToSuit(suit),
+                                                                       rank);
                 }
             }
         }
@@ -57,6 +58,7 @@ public class Shoe
      * @param   numCards - specifies a number of cards to make <=13
      * */
     public Shoe(Card.Suit suit, int numCards)
+    
     { 
         cardAry = new Card[numCards];
 
